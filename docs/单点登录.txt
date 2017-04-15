@@ -1,0 +1,50 @@
+JDK自带的keytool工具生成证书
+keytool -genkey -alias tomcat -keyalg RSA -keystore c:/dev/keys/keystore
+
+C:\Program Files\Java\jdk1.8.0_121\bin>keytool -genkey -alias tomcat -keyalg RSA
+ -keystore c:/dev/keys/keystore
+输入密钥库口令:
+再次输入新口令:
+您的名字与姓氏是什么?
+  [Unknown]:  www.lxj.com
+您的组织单位名称是什么?
+  [Unknown]:  lxj
+您的组织名称是什么?
+  [Unknown]:  lxj
+您所在的城市或区域名称是什么?
+  [Unknown]:  zhengzhou
+您所在的省/市/自治区名称是什么?
+  [Unknown]:  henan
+该单位的双字母国家/地区代码是什么?
+  [Unknown]:  zh
+CN=www.lxj.com, OU=lxj, O=lxj, L=zhengzhou, ST=henan, C=zh是否正确?
+  [否]:  y
+
+输入 <tomcat> 的密钥口令
+        (如果和密钥库口令相同, 按回车):
+
+C:\Program Files\Java\jdk1.8.0_121\bin>
+
+导出证书
+keytool -export -trustcacerts -alias tomcat -file c:/dev/keys/tomcat.cer -keystore c:/dev/keys/keystore
+
+将证书导入JDK信任库
+keytool -import -trustcacerts -alias tomcat -file c:/dev/keys/tomcat.cer -keystore "c:/Program Files/Java/jdk1.8.0_121/jre/lib/security/cacerts"
+
+keytool -import -trustcacerts -alias tomcat -file c:/dev/keys/tomcat.cer -keystore "c:/Program Files/Java/jre1.8.0_121/lib/security/cacerts"
+
+准备一个tomcat，启用SSL（HTTPS）协议
+server.xml
+<Connector port="8443" protocol="org.apache.coyote.http11.Http11Protocol"
+               maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS"
+	       keystoreFile="c:/dev/keys/keystore" keystorePass="123456" />
+
+配置本地域名解析
+C:\Windows\System32\drivers\etc\hosts
+127.0.0.1	www.lxj.com
+::1	www.lxj.com
+
+下载cas-server.zip cas-client.zip
+解压cas-server，找到modules/cas-server-webapp.war，改名为cas，复制到tomcat/webapp目录下
+访问https://www.lxj.com:8443/cas/login，casuser/Mellon登录
