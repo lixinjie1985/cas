@@ -1,0 +1,73 @@
+1 CAS的HTTP模式与HTTPS设置
+
+1）cas\WEB-INF\deployerConfigContext.xml，新增p:requireSecure="false"
+
+    <bean id="proxyAuthenticationHandler"          class="org.jasig.cas.authentication.handler.support.HttpBasedServiceCredentialsAuthenticationHandler"
+
+          p:httpClient-ref="httpClient" p:requireSecure="false"/>
+
+2）cas\WEB-INF\spring-configuration
+
+     ticketGrantingTicketCookieGenerator.xml设置p:cookieSecure="false"
+
+warnCookieGenerator.xml设置p:cookieSecure="false"
+
+2 设置利用数据库来验证用户
+
+cas\WEB-INF\deployerConfigContext.xml
+
+1）更换验证方式 
+<!-- Define the DB Connection -->
+
+   <bean id="dataSource"
+
+     class="com.mchange.v2.c3p0.ComboPooledDataSource"
+
+     p:driverClass="com.mysql.jdbc.Driver"
+
+     p:jdbcUrl="jdbc:mysql://127.0.0.1:3306/hztraffic?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"
+
+     p:user="root"
+
+     p:password="root" />
+
+ 
+
+     <!-- Define the encode method-->
+     
+     <bean id="passwordEncoder"
+
+      class="org.jasig.cas.authentication.handler.DefaultPasswordEncoder"
+
+      c:encodingAlgorithm="MD5"
+
+      p:characterEncoding="UTF-8" />
+
+ 
+
+     <bean id="dbAuthHandler"
+
+      class="org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler"
+
+      p:dataSource-ref="dataSource"
+
+      p:sql="select password from hztraffic.user_data where name=? and used=1"
+
+     p:passwordEncoder-ref="passwordEncoder"/>
+     
+2）更换验证Handle
+
+<bean id="authenticationManager" class="org.jasig.cas.authentication.PolicyBasedAuthenticationManager">
+
+        <constructor-arg>
+
+            <map>
+                <entry key-ref="proxyAuthenticationHandler" value-ref="proxyPrincipalResolver" />
+
+                <entry key-ref="dbAuthHandler" value-ref="primaryPrincipalResolver" />
+
+           <!-- <entry key-ref="primaryAuthenticationHandler" value-ref="primaryPrincipalResolver" /> -->
+
+            </map>
+
+        </constructor-arg>

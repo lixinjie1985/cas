@@ -1,50 +1,53 @@
-JDK×Ô´øµÄkeytool¹¤¾ßÉú³ÉÖ¤Êé
+JDKè‡ªå¸¦çš„keytoolå·¥å…·ç”Ÿæˆè¯ä¹¦
 keytool -genkey -alias tomcat -keyalg RSA -keystore c:/dev/keys/keystore
 
 C:\Program Files\Java\jdk1.8.0_121\bin>keytool -genkey -alias tomcat -keyalg RSA
  -keystore c:/dev/keys/keystore
-ÊäÈëÃÜÔ¿¿â¿ÚÁî:
-ÔÙ´ÎÊäÈëĞÂ¿ÚÁî:
-ÄúµÄÃû×ÖÓëĞÕÊÏÊÇÊ²Ã´?
+è¾“å…¥å¯†é’¥åº“å£ä»¤:
+å†æ¬¡è¾“å…¥æ–°å£ä»¤:
+æ‚¨çš„åå­—ä¸å§“æ°æ˜¯ä»€ä¹ˆ?
   [Unknown]:  www.lxj.com
-ÄúµÄ×éÖ¯µ¥Î»Ãû³ÆÊÇÊ²Ã´?
+æ‚¨çš„ç»„ç»‡å•ä½åç§°æ˜¯ä»€ä¹ˆ?
   [Unknown]:  lxj
-ÄúµÄ×éÖ¯Ãû³ÆÊÇÊ²Ã´?
+æ‚¨çš„ç»„ç»‡åç§°æ˜¯ä»€ä¹ˆ?
   [Unknown]:  lxj
-ÄúËùÔÚµÄ³ÇÊĞ»òÇøÓòÃû³ÆÊÇÊ²Ã´?
+æ‚¨æ‰€åœ¨çš„åŸå¸‚æˆ–åŒºåŸŸåç§°æ˜¯ä»€ä¹ˆ?
   [Unknown]:  zhengzhou
-ÄúËùÔÚµÄÊ¡/ÊĞ/×ÔÖÎÇøÃû³ÆÊÇÊ²Ã´?
+æ‚¨æ‰€åœ¨çš„çœ/å¸‚/è‡ªæ²»åŒºåç§°æ˜¯ä»€ä¹ˆ?
   [Unknown]:  henan
-¸Ãµ¥Î»µÄË«×ÖÄ¸¹ú¼Ò/µØÇø´úÂëÊÇÊ²Ã´?
+è¯¥å•ä½çš„åŒå­—æ¯å›½å®¶/åœ°åŒºä»£ç æ˜¯ä»€ä¹ˆ?
   [Unknown]:  zh
-CN=www.lxj.com, OU=lxj, O=lxj, L=zhengzhou, ST=henan, C=zhÊÇ·ñÕıÈ·?
-  [·ñ]:  y
+CN=www.lxj.com, OU=lxj, O=lxj, L=zhengzhou, ST=henan, C=zhæ˜¯å¦æ­£ç¡®?
+  [å¦]:  y
 
-ÊäÈë <tomcat> µÄÃÜÔ¿¿ÚÁî
-        (Èç¹ûºÍÃÜÔ¿¿â¿ÚÁîÏàÍ¬, °´»Ø³µ):
+è¾“å…¥ <tomcat> çš„å¯†é’¥å£ä»¤
+        (å¦‚æœå’Œå¯†é’¥åº“å£ä»¤ç›¸åŒ, æŒ‰å›è½¦):
 
 C:\Program Files\Java\jdk1.8.0_121\bin>
 
-µ¼³öÖ¤Êé
+å¯¼å‡ºè¯ä¹¦
 keytool -export -trustcacerts -alias tomcat -file c:/dev/keys/tomcat.cer -keystore c:/dev/keys/keystore
 
-½«Ö¤Êéµ¼ÈëJDKĞÅÈÎ¿â
-keytool -import -trustcacerts -alias tomcat -file c:/dev/keys/tomcat.cer -keystore "c:/Program Files/Java/jdk1.8.0_121/jre/lib/security/cacerts"
+å°†è¯ä¹¦å¯¼å…¥JDKä¿¡ä»»åº“
 
+å¯¼å…¥åˆ°jdkä¸‹
+keytool -import -trustcacerts -alias tomcat -file c:/dev/keys/tomcat.cer -keystore "c:/Program Files/Java/jdk1.8.0_121/jre/lib/security/cacerts"
+å¯¼å…¥åˆ°jreä¸‹ï¼ˆé€šè¿‡Eclipseå¯åŠ¨tomcatæ—¶ï¼Œè¯·ä½¿ç”¨è¿™ç§æ–¹å¼ï¼‰
 keytool -import -trustcacerts -alias tomcat -file c:/dev/keys/tomcat.cer -keystore "c:/Program Files/Java/jre1.8.0_121/lib/security/cacerts"
 
-×¼±¸Ò»¸ötomcat£¬ÆôÓÃSSL£¨HTTPS£©Ğ­Òé
+å‡†å¤‡ä¸€ä¸ªtomcatï¼Œå¯ç”¨SSLï¼ˆHTTPSï¼‰åè®®
 server.xml
 <Connector port="8443" protocol="org.apache.coyote.http11.Http11Protocol"
                maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
                clientAuth="false" sslProtocol="TLS"
 	       keystoreFile="c:/dev/keys/keystore" keystorePass="123456" />
 
-ÅäÖÃ±¾µØÓòÃû½âÎö
+é…ç½®æœ¬åœ°åŸŸåè§£æ
 C:\Windows\System32\drivers\etc\hosts
 127.0.0.1	www.lxj.com
 ::1	www.lxj.com
 
-ÏÂÔØcas-server.zip cas-client.zip
-½âÑ¹cas-server£¬ÕÒµ½modules/cas-server-webapp.war£¬¸ÄÃûÎªcas£¬¸´ÖÆµ½tomcat/webappÄ¿Â¼ÏÂ
-·ÃÎÊhttps://www.lxj.com:8443/cas/login£¬casuser/MellonµÇÂ¼
+ä¸‹è½½cas-server.zip cas-client.zip
+è§£å‹cas-serverï¼Œæ‰¾åˆ°modules/cas-server-webapp.warï¼Œæ”¹åä¸ºcasï¼Œå¤åˆ¶åˆ°tomcat/webappç›®å½•ä¸‹
+è®¿é—®https://www.lxj.com:8443/cas/loginï¼Œcasuser/Mellonç™»å½•
+
